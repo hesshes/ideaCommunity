@@ -10,6 +10,8 @@ import application.util.SHA256;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -51,8 +53,8 @@ public class MemberServiceImpl implements MemberService {
 		DatePicker birth = (DatePicker) parent.lookup("#birth");
 		TextField mail = (TextField) parent.lookup("#txtMail");
 		Member m = new Member();
-		
-		boolean chk=false;
+		System.out.println("??");
+		boolean chk = false;
 		if (id.getText().isEmpty() || pw.getText().isEmpty() || pwChk.getText().isEmpty() || name.getText().isEmpty()
 				|| birth.getValue().toString().isEmpty() || mail.getText().isEmpty()) {
 			cs.errorAlert("미입력", "미입력 항목", "빈 항목 확인");
@@ -69,20 +71,26 @@ public class MemberServiceImpl implements MemberService {
 			id.requestFocus();
 			chk=true;
 		}
-		
-		if(!chk) {
+
+		if (!chk) {
 			m.setId(id.getText());
 			m.setEmail(mail.getText());
 			m.setName(name.getText());
 			m.setBirth(birth.getValue().toString());
 			m.setSalt(SHA256.generateSalt());
 			m.setPw(SHA256.getEncrypt(pw.getText(), m.getSalt()));
-		}
-		
-		
-		if(dao.insert(m)) {
-			
+			if (dao.insert(m)) {
+				Alert alr = new Alert(AlertType.INFORMATION);
+				alr.setTitle("회원가입");
+				alr.setHeaderText("회원가입 완료");
+				alr.setContentText("회원 가입이 완료 되었습니다. 로그인 해주세요");
+				alr.showAndWait();
+				Stage s = (Stage) parent.getScene().getWindow();
+				s.close();
+			} else {
+				cs.errorAlert("회원가입", "회원 가입", "다시 시도");
+			}
 		}
 	}
-//	
+
 }
