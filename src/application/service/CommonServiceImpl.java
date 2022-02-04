@@ -7,7 +7,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -15,9 +14,10 @@ public class CommonServiceImpl implements CommonService {
 
 	@Override
 	public void handCursor(MouseEvent event) {
-		Label lbl = (Label) event.getSource();
-		lbl.setCursor(Cursor.HAND);
+		Node node =  (Node) event.getSource();
+		node.setCursor(Cursor.HAND);
 	}
+	
 
 	public void windowClose(Event event) {
 		Node node = (Node) event.getSource();

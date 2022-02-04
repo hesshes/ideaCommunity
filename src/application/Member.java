@@ -6,6 +6,7 @@ public class Member {
 	private String name;
 	private String birth;
 	private String email;
+	private String salt;
 	
 	public String getId() {
 		return id;
@@ -38,5 +39,10 @@ public class Member {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 }

@@ -5,11 +5,17 @@ import java.util.ResourceBundle;
 
 import application.service.CommonService;
 import application.service.CommonServiceImpl;
+import application.service.LoginService;
+import application.service.LoginServiceImpl;
 import application.service.MemberService;
 import application.service.MemberServiceImpl;
 import javafx.event.Event;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
 public class Controller implements Initializable {
@@ -17,10 +23,12 @@ public class Controller implements Initializable {
     private Parent curParent;    
 	private CommonService cs;
 	private MemberService ms;
+	private LoginService ls;
 	
 	public Controller() {
 		cs = new CommonServiceImpl();
 		ms = new MemberServiceImpl();
+		ls = new LoginServiceImpl();
 	}
 
 	@Override
@@ -48,4 +56,9 @@ public class Controller implements Initializable {
 	public void memberReg() {
 		ms.memberReg(curParent);
 	}
+	
+	public void login() {
+		ls.login(curParent);
+	}
+	
 }

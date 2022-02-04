@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -13,10 +15,18 @@
 	fx:controller="application.control.Controller">
 	<children>
 		<VBox alignment="CENTER" layoutX="29.0" layoutY="103.0"
-			prefHeight="314.0" prefWidth="303.0" spacing="20.0">
+			prefHeight="310.0" prefWidth="300.0" spacing="20.0">
 			<children>
-				<ImageView fitHeight="50.0" fitWidth="200.0"
-					pickOnBounds="true" preserveRatio="true">
+				<TextField fx:id="logId" alignment="CENTER"
+					maxHeight="-Infinity" maxWidth="-Infinity" minHeight="20.0"
+					minWidth="50.0" prefHeight="28.0" prefWidth="200.0"
+					promptText="아이디 입력" />
+				<PasswordField fx:id="logPw" alignment="CENTER"
+					maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0"
+					prefWidth="200.0" promptText="비밀번호 입력" />
+				<ImageView fx:id="logImg" fitHeight="50.0"
+					fitWidth="200.0" onMouseClicked="#login" onMouseMoved="#mouseOver"
+					opacity="100" pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../img/login.png" />
 					</image>

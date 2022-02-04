@@ -2,9 +2,11 @@ package application.service;
 
 import java.io.IOException;
 
+import application.Member;
 import application.control.Controller;
 import application.dao.DatabaseService;
 import application.dao.DatabaseServiceImpl;
+import application.util.SHA256;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -47,24 +49,39 @@ public class MemberServiceImpl implements MemberService {
 		PasswordField pwChk = (PasswordField) parent.lookup("#txtPwChk");
 		TextField name = (TextField) parent.lookup("#txtName");
 		DatePicker birth = (DatePicker) parent.lookup("#birth");
-		TextField txtMail = (TextField) parent.lookup("#txtMail");
-
+		TextField mail = (TextField) parent.lookup("#txtMail");
+		Member m = new Member();
+		
+		boolean chk=false;
 		if (id.getText().isEmpty() || pw.getText().isEmpty() || pwChk.getText().isEmpty() || name.getText().isEmpty()
-				|| birth.getValue().toString().isEmpty() || txtMail.getText().isEmpty()) {
+				|| birth.getValue().toString().isEmpty() || mail.getText().isEmpty()) {
 			cs.errorAlert("미입력", "미입력 항목", "빈 항목 확인");
 			id.requestFocus();
+			chk=true;
 		} else if (!pw.getText().equals(pwChk.getText())) {
 			cs.errorAlert("비밀번호 입력", "비밀번호 항목", "비밀번호 확인");
 			pw.clear();
 			pw.requestFocus();
-		} else if (cs.validCheck("id", id.getText()) || dao.dupChecker("id", id.getText())) {
-			boolean a = cs.validCheck("id", id.getText());
-			boolean b = dao.dupChecker("id", id.getText());
-			System.out.println("DB 중복 확인 결과 " + b);
-			System.out.println("아이디 무결성 확인 결과 "+a);
+			chk=true;
+		} else if (dao.dupChecker("id", id.getText())) {
 			cs.errorAlert("아이디 입력", "아이디 입력 항목", "아이디 입력 확인");
 			id.clear();
 			id.requestFocus();
+			chk=true;
+		}
+		
+		if(!chk) {
+			m.setId(id.getText());
+			m.setEmail(mail.getText());
+			m.setName(name.getText());
+			m.setBirth(birth.getValue().toString());
+			m.setSalt(SHA256.generateSalt());
+			m.setPw(SHA256.getEncrypt(pw.getText(), m.getSalt()));
+		}
+		
+		
+		if(dao.insert(m)) {
+			
 		}
 	}
 //	
